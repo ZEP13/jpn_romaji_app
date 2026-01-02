@@ -18,22 +18,31 @@ def get_random_voc() -> str:
         if lang_choice not in ['fr', 'jpn']:
             return "Choix de langue invalide. Veuillez choisir 'fr' ou 'jpn'."
 
-        for fr, jpn in random_vocs:
+        for id, fr, jpn, good_answers, all_answers in random_vocs:
+
+            stats_word = (
+                (good_answers / all_answers) * 100
+                if all_answers > 0 else 0
+            )
+
             if lang_choice == 'jpn':
-                print(fr)
+                print(f"{fr}  (réussite: {stats_word:.1f}%)")
                 reponse = input("Traduction en japonais: ").strip()
                 if reponse == jpn:
                     print("Correct!")
+                    voc_repo.update_voc_stats(id, 1, 1)
                 else:
                     print(f"Incorrect. La bonne réponse est: {jpn}")
+                    voc_repo.update_voc_stats(id, 0, 1)
             else:
-                print(jpn)
+                print(f"{jpn}  (réussite: {stats_word:.1f}%)")
                 reponse = input("Traduction en français: ").strip()
                 if reponse == fr:
                     print("Correct!")
+                    voc_repo.update_voc_stats(id, 1, 1)
                 else:
                     print(f"Incorrect. La bonne réponse est: {fr}")
-
+                    voc_repo.update_voc_stats(id, 0, 1)
         return "Évaluation terminée."
 
     except Exception as e:

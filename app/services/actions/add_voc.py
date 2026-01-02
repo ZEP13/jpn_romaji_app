@@ -9,13 +9,28 @@ def add_vocabulary() -> str:
     existing_fr = voc_repo.find_trad_jpn_fr(input_jpn)
 
     if existing_jpn:
+        jpn_words = [jpn for _, jpn in existing_jpn]
+
         still_want = input(
-            f"Le mot français '{input_fr}' existe déjà avec la traduction japonaise '{', '.join(existing_jpn)}'. Voulez-vous quand même l'ajouter? (o/n): ").strip().lower()
+            f"Le mot français '{
+                input_fr}' existe déjà avec la traduction japonaise "
+            f"'{', '.join(jpn_words)
+                }'. Voulez-vous quand même l'ajouter? (o/n): "
+        ).strip().lower()
+
         if still_want != 'o':
             return "Ajout de vocabulaire annulé."
+
     if existing_fr:
+        fr_words = [fr for fr, _ in existing_fr]
+
         still_want = input(
-            f"Le mot japonais '{input_jpn}' existe déjà avec la traduction française '{', '.join(existing_fr)}'. Voulez-vous quand même l'ajouter? (o/n): ").strip().lower()
+            f"Le mot japonais '{
+                input_jpn}' existe déjà avec la traduction française "
+            f"'{', '.join(fr_words)
+                }'. Voulez-vous quand même l'ajouter? (o/n): "
+        ).strip().lower()
+
         if still_want != 'o':
             return "Ajout de vocabulaire annulé."
 
