@@ -1,6 +1,6 @@
-import psycopg
-import db_connection.conn as conn
+from app.db_connection import conn
 from psycopg import sql, OperationalError
+from typing import List, Tuple
 
 
 def create_voc_table():
@@ -13,7 +13,8 @@ def create_voc_table():
                             id SERIAL PRIMARY KEY,
                             fr_meaning TEXT NOT NULL,
                             jpn_meaning TEXT NOT NULL,
-                            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                            score INT DEFAULT 0,
+                            nb_attempts INT DEFAULT 0
                         )
                     """)
                 )
@@ -21,33 +22,33 @@ def create_voc_table():
         print("Could not create the db voc:", e)
 
 
-def find_trad_fr_jpn(fr_meaning: str) -> list[str]:
+def find_trad_fr_jpn(fr_meaning: str) -> List[Tuple[str, str]]:
     try:
         with conn.get_db_connection() as connection:
             with connection.cursor() as cur:
                 cur.execute(
-                    "SELECT * FROM voc WHERE fr_meaning LIKE %s",
+                    "SELECT  fr_meaning, jpn_meaning  FROM jpn_romaji.voc WHERE fr_meaning LIKE %s",
                     (f"%{fr_meaning}%",)
                 )
                 rows = cur.fetchall()
-                return [row[0] for row in rows]
+                return rows
     except OperationalError as e:
-        print(f"Could not find word or trad with meaning '{fr_meaning}': {e}")
+        print(f"Could not find word for '{fr_meaning}': {e}")
         return []
 
 
-def find_trad_jpn_fr(jpn_meaning: str) -> list[str]:
+def find_trad_jpn_fr(jpn_meaning: str) -> List[Tuple[str, str]]:
     try:
         with conn.get_db_connection() as connection:
             with connection.cursor() as cur:
                 cur.execute(
-                    "SELECT * FROM voc WHERE fr_meaning LIKE %s",
+                    "SELECT jpn_meaning, fr_meaning FROM jpn_romaji.voc WHERE jpn_meaning LIKE %s",
                     (f"%{jpn_meaning}%",)
                 )
                 rows = cur.fetchall()
-                return [row[1] for row in rows]
+                return rows
     except OperationalError as e:
-        print(f"Could not find word or trad with meaning '{jpn_meaning}': {e}")
+        print(f"Could not find word for '{jpn_meaning}': {e}")
         return []
 
 
@@ -56,8 +57,24 @@ def add_vocabulary(jpn_meaning: str, fr_meaning: str) -> None:
         with conn.get_db_connection() as connection:
             with connection.cursor() as cur:
                 cur.execute(
-                    "INSERT INTO voc (jpn_meaning, fr_meaning) VALUES (%s,%s)",
+                    "INSERT INTO jpn_romaji.voc (jpn_meaning, fr_meaning) VALUES (%s,%s)",
                     (jpn_meaning, fr_meaning)
                 )
     except OperationalError as e:
         print("could not add new voc", e)
+
+
+def get_number_of_rand_voc(number: int) -> List[Tuple[str, str]]:
+    try:
+        with conn.get_db_connection() as connection:
+            with connection.cursor() as cur:
+                cur.execute(
+                    sql.SQL(
+                        "SELECT fr_meaning, jpn_meaning FROM jpn_romaji.voc ORDER BY RANDOM() LIMIT %s"),
+                    (number,)
+                )
+                rows = cur.fetchall()
+                return rows
+    except OperationalError as e:
+        print("Could not fetch random voc:", e)
+        return []
