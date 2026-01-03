@@ -1,6 +1,6 @@
 from app.db_connection import conn
 from psycopg import sql, OperationalError
-from typing import List, Tuple
+from typing import List, Tuple, Optional
 
 
 def create_voc_table():
@@ -90,3 +90,30 @@ def update_voc_stats(id_word: int, nb_good_asw: int, nb_attempts: int) -> None:
                 )
     except OperationalError as e:
         print("Could not update voc stats:", e)
+
+
+def get_last_added() -> Optional[Tuple[str, str]]:
+    try:
+        with conn.get_db_connection() as connection:
+            with connection.cursor() as cur:
+                cur.execute(
+                    "SELECT jpn_meaning, fr_meaning FROM jpn_romaji.voc ORDER BY id DESC LIMIT 1"
+                )
+                rows = cur.fetchone()
+                return rows
+    except OperationalError as e:
+        print("Could not fetch last added voc:", e)
+        return None
+
+
+def delete_vocabulary(jpn_meaning: str, fr_meaning: str) -> None:
+    try:
+        with conn.get_db_connection() as connection:
+            with connection.cursor() as cur:
+                cur.execute(
+                    "DELETE FROM jpn_romaji.voc WHERE jpn_meaning = %s AND fr_meaning = %s",
+                    (jpn_meaning, fr_meaning)
+                )
+                connection.commit()
+    except OperationalError as e:
+        print("Could not delete voc:", e)

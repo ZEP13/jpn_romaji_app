@@ -2,6 +2,7 @@ from app.services.actions import add_voc as add_voc_action
 from app.services.actions import find_fr_voc as find_fr_voc_action
 from app.services.actions import find_jpn_voc as find_jpn_voc_action
 from app.services.actions import get_random_voc as get_random_voc_action
+from app.services.actions import delete_last_add as delete_last_add_action
 
 
 def main() -> None:
@@ -12,6 +13,7 @@ def main() -> None:
     print("   2. Rechercher une traduction de japonais à français")
     print("   3. Rechercher une traduction de francais a japonais")
     print("   4. Evaluer connaissance sur vocabulaires aléatoires")
+    print("   5. Delete last vocabulaire ajouté")
     print(" -------------------------------------------------------- ")
     print("\n   ESC. Quitter")
     while True:
@@ -28,6 +30,9 @@ def main() -> None:
             print(result)
         elif choice == '4':
             result = get_random_voc_action.get_random_voc()
+            print(result)
+        elif choice == '5':
+            result = delete_last_add_action.delete_last_add()
             print(result)
         elif choice == "esc":
             break
