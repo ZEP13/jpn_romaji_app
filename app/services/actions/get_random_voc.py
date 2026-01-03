@@ -28,24 +28,26 @@ def get_random_voc() -> str:
             )
 
             if lang_choice == 'jpn':
-                print(f"{fr}  (réussite: {stats_word:.1f}%) (mot {i} sur {number})")
-                reponse = input("Traduction en japonais: ").strip()
+                print(f"\nMot {i} sur {number}\n\n {
+                      fr.upper()}  (réussite: {stats_word:.1f}%) ")
+                reponse = input("\nTraduction en japonais: ").strip()
                 if reponse == jpn:
                     print("Correct!")
                     voc_repo.update_voc_stats(id, 1, 1)
                 else:
-                    print(f"Incorrect. La bonne réponse est: {jpn}")
+                    print(f"\nIncorrect. La bonne réponse est: {jpn}")
                     voc_repo.update_voc_stats(id, 0, 1)
             else:
-                print(f"{jpn}  (réussite: {stats_word:.1f}%) (mot {i} sur {number})")
-                reponse = input("Traduction en français: ").strip()
+                print(f"\nMot {i} sur {number} \n\n {
+                      jpn.upper()}  (réussite: {stats_word:.1f}%)")
+                reponse = input("\nTraduction en français: ").strip()
                 if reponse == fr:
                     print("Correct!")
                     voc_repo.update_voc_stats(id, 1, 1)
                 else:
-                    print(f"Incorrect. La bonne réponse est: {fr}")
+                    print(f"\nIncorrect. La bonne réponse est: {fr}")
                     voc_repo.update_voc_stats(id, 0, 1)
-        return "Évaluation terminée."
+        return "\nÉvaluation terminée."
 
     except Exception as e:
         return f"Une erreur s'est produite lors de la récupération des vocabulaires aléatoires: {e}"
