@@ -18,15 +18,17 @@ def get_random_voc() -> str:
         if lang_choice not in ['fr', 'jpn']:
             return "Choix de langue invalide. Veuillez choisir 'fr' ou 'jpn'."
 
+        i = 0
         for id, fr, jpn, good_answers, all_answers in random_vocs:
 
+            i += 1
             stats_word = (
                 (good_answers / all_answers) * 100
                 if all_answers > 0 else 0
             )
 
             if lang_choice == 'jpn':
-                print(f"{fr}  (réussite: {stats_word:.1f}%)")
+                print(f"{fr}  (réussite: {stats_word:.1f}%) (mot {i} sur {number})")
                 reponse = input("Traduction en japonais: ").strip()
                 if reponse == jpn:
                     print("Correct!")
@@ -35,7 +37,7 @@ def get_random_voc() -> str:
                     print(f"Incorrect. La bonne réponse est: {jpn}")
                     voc_repo.update_voc_stats(id, 0, 1)
             else:
-                print(f"{jpn}  (réussite: {stats_word:.1f}%)")
+                print(f"{jpn}  (réussite: {stats_word:.1f}%) (mot {i} sur {number})")
                 reponse = input("Traduction en français: ").strip()
                 if reponse == fr:
                     print("Correct!")

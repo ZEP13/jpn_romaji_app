@@ -5,15 +5,17 @@ from app.services.actions import get_random_voc as get_random_voc_action
 
 
 def main() -> None:
-    print("Bienvenue dans l'application de gestion de vocabulaire japonais-français.")
-    print("\nOptions:")
-    print("1. Ajouter du vocabulaire")
-    print("2. Rechercher une traduction de japonais à français")
-    print("3. Rechercher une traduction de francais a japonais")
-    print("4. Evaluer connaissance sur vocabulaires aléatoires")
-    print("ESC. Quitter")
+    print(" -------------------------------------------------------- ")
+    print("\n   Options:\n")
+    print(" -------------------------------------------------------- ")
+    print("   1. Ajouter du vocabulaire")
+    print("   2. Rechercher une traduction de japonais à français")
+    print("   3. Rechercher une traduction de francais a japonais")
+    print("   4. Evaluer connaissance sur vocabulaires aléatoires")
+    print(" -------------------------------------------------------- ")
+    print("\n   ESC. Quitter")
     while True:
-        choice = input("Choisissez une option : ").strip()
+        choice = input("\nChoisissez une option : ").strip()
 
         if choice == '1':
             result = add_voc_action.add_vocabulary()
