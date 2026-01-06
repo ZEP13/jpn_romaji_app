@@ -6,7 +6,7 @@ def find_fr_voc() -> str:
         input_jpn = input("\nEntrez le mot japonais à rechercher: ").strip()
 
         if input_jpn.lower() == 'exit':
-            print("Recherche terminée.")
+            return "\n Fin recherche"
 
         existing_fr = voc_repo.find_trad_jpn_fr(input_jpn)
 
