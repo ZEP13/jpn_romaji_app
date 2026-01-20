@@ -6,16 +6,20 @@ from app.services.actions import delete_last_add as delete_last_add_action
 
 
 def main() -> None:
-    print(" -------------------------------------------------------- ")
-    print("\n   Options:\n")
-    print(" -------------------------------------------------------- ")
-    print("   1. Ajouter du vocabulaire")
-    print("   2. Rechercher une traduction de japonais à français")
-    print("   3. Rechercher une traduction de francais a japonais")
-    print("   4. Evaluer connaissance sur vocabulaires aléatoires")
-    print("   5. Delete last vocabulaire ajouté")
-    print(" -------------------------------------------------------- ")
-    print("\n   ESC. Quitter")
+    options = """
+    -------------------------------------------------------- 
+        Options:
+    -------------------------------------------------------- 
+    1. Ajouter du vocabulaire
+    2. Rechercher une traduction de japonais à français
+    3. Rechercher une traduction de francais a japonais
+    4. Evaluer connaissance sur vocabulaires aléatoires
+    5. Delete last vocabulaire ajouté
+    6. Print Options
+    -------------------------------------------------------- 
+    ESC. Quitter
+    """
+    print(options)
     while True:
         choice = input("\nChoisissez une option : ").strip()
 
@@ -34,6 +38,8 @@ def main() -> None:
         elif choice == '5':
             result = delete_last_add_action.delete_last_add()
             print(result)
+        elif choice=="opt":
+            print(options)
         elif choice == "esc":
             break
         else:
