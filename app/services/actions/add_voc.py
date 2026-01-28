@@ -1,4 +1,6 @@
 from app.repository import voc as voc_repo
+from colorama import Style, Fore, init
+init(autoreset=True)
 
 
 def add_vocabulary() -> str:
@@ -13,7 +15,7 @@ def add_vocabulary() -> str:
             return "\nAjout de vocabulaire annulé."
 
         if input_jpn == "" or input_fr == "":
-            print("\nLes deux champs sont obligatoires. Veuillez réessayer.")
+            print(Fore.RED + "\nLes deux champs sont obligatoires. Veuillez réessayer.")
             continue
         existing_jpn = voc_repo.find_trad_fr_jpn(input_fr)
         existing_fr = voc_repo.find_trad_jpn_fr(input_jpn)
@@ -45,4 +47,4 @@ def add_vocabulary() -> str:
                 return "\nAjout de vocabulaire annulé."
 
         voc_repo.add_vocabulary(input_jpn, input_fr)
-        print("\nNouveau vocabulaire ajouté avec succès.")
+        print(Fore.GREEN + "\nNouveau vocabulaire ajouté avec succès.")

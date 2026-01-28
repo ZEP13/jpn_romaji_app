@@ -1,4 +1,6 @@
 from app.repository import voc as voc_repo
+from colorama import init,Fore
+init(autoreset=True)
 
 
 def get_random_voc() -> str:
@@ -32,20 +34,20 @@ def get_random_voc() -> str:
                       fr.upper()}  (réussite: {stats_word:.1f}%) ")
                 reponse = input("\nTraduction en japonais: ").strip()
                 if reponse == jpn:
-                    print("Correct!")
+                    print(Fore.GREEN +"\nCorrect!")
                     voc_repo.update_voc_stats(id, 1, 1)
                 else:
-                    print(f"\nIncorrect. La bonne réponse est: {jpn}")
+                    print(Fore.RED+f"\nIncorrect. La bonne réponse est: {jpn}")
                     voc_repo.update_voc_stats(id, 0, 1)
             else:
                 print(f"\nMot {i} sur {number} \n\n {
                       jpn.upper()}  (réussite: {stats_word:.1f}%)")
                 reponse = input("\nTraduction en français: ").strip()
                 if reponse == fr:
-                    print("Correct!")
+                    print(Fore.GREEN +"\nCorrect!")
                     voc_repo.update_voc_stats(id, 1, 1)
                 else:
-                    print(f"\nIncorrect. La bonne réponse est: {fr}")
+                    print(Fore.RED + f"\nIncorrect. La bonne réponse est: {fr}")
                     voc_repo.update_voc_stats(id, 0, 1)
         return "\nÉvaluation terminée."
 

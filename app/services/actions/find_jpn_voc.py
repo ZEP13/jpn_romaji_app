@@ -1,4 +1,5 @@
 from app.repository import voc as voc_repo
+from colorama import Fore, Style
 
 
 def find_jpn_voc() -> str:
@@ -14,4 +15,5 @@ def find_jpn_voc() -> str:
             print(f"\nTraductions japonaises pour '{
                   input_fr}':\n" + "\n".join(lines))
         else:
-            print(f"\nAucune traduction japonnaise trouvée pour '{input_fr}'.")
+            print(Fore.RED + f"\nAucune traduction japonnaise trouvée pour '{input_fr}'.")
+            print(Style.RESET_ALL)
